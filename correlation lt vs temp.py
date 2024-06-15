@@ -1,5 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 file_path = 'data.csv'  
 data = pd.read_csv(file_path)
@@ -28,8 +27,10 @@ def assign_compound(driver, lap):
 lap_data['compound'] = lap_data.apply(lambda row: assign_compound(row['driver'], row['lap']), axis=1)
 temperature_dict = {
     (1, 20): 26,
+    (21, 29): 27,
     (30, 40): 29,
-    (50, 60): 31
+    (41, 49): 30,
+    (50, 58): 31
 }
 def assign_temperature(lap):
     for lap_range, temp in temperature_dict.items():
@@ -43,10 +44,15 @@ for driver in filtered_lap_data['driver'].unique():
     driver_data = filtered_lap_data[filtered_lap_data['driver'] == driver]
     for compound in driver_data['compound'].unique():
         stint_data = driver_data[driver_data['compound'] == compound]
-        if not stint_data.empty:  # Check if stint_data is not empty
-            correlation = np.corrcoef(stint_data['temperature'], stint_data['time_seconds'])[0, 1]
+        if not stint_data.empty:
+            if stint_data['temperature'].std() != 0:
+                correlation = np.corrcoef(stint_data['temperature'], stint_data['time_seconds'])[0, 1]
+            else:
+                correlation = np.nan
         else:
-            correlation = np.nan  # Assign NaN if stint_data is empty
+            correlation = np.nan
+            if driver == 'ham':
+                print(f"No data available for Hamilton with compound {compound}.")
         correlation_results_temp.append({
             'driver': driver,
             'compound': compound,

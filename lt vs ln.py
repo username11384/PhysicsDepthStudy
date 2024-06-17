@@ -31,8 +31,8 @@ def assign_compound(driver, lap):
     return None
 lap_data['compound'] = lap_data.apply(lambda row: assign_compound(row['driver'], row['lap']), axis=1)
 plt.figure(figsize=(12, 6))
-compound_colors_ver = {'soft': 'red', 'newhard': 'brown', 'hard': 'black', 'newsoft': 'purple'}
-compound_colors_ham = {'soft': 'blue', 'medium': 'green', 'hard': 'orange'}
+compound_colors_ver = {'soft': 'red', 'newhard': 'blue', 'hard': 'black', 'newsoft': 'purple'}
+compound_colors_ham = {'medium': 'green', 'hard': 'orange'}
 for driver in lap_data['driver'].unique():
     driver_data = lap_data[lap_data['driver'] == driver]
     if driver == 'ver':

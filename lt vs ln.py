@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 file_path = 'data.csv'
 data = pd.read_csv(file_path)
-lap_data = data.iloc[1:,:5]
+lap_data = data.iloc[1:, :5]
 lap_data.columns = ['raceId', 'driver', 'lap', 'position', 'time']
 lap_data = lap_data.dropna().reset_index(drop=True)
 def time_to_seconds(lap_time):
@@ -43,17 +43,20 @@ for driver in lap_data['driver'].unique():
         for compound, color in compound_colors_ham.items():
             compound_data = driver_data[driver_data['compound'] == compound]
             plt.plot(compound_data['lap'], compound_data['time_seconds'], marker='o', linestyle='-', color=color, label=f'Hamilton - {compound}')
-    for pit_stop in pit_stops[driver]:
+    for i, pit_stop in enumerate(pit_stops[driver]):
         pit_lap_data = driver_data[driver_data['lap'] == pit_stop]
         if driver == 'ver':
             plt.scatter(pit_lap_data['lap'], pit_lap_data['time_seconds'], color='red', s=100, zorder=5, edgecolors='white')
+            text_label = f"V PIT ({pit_stop})"  
         elif driver == 'ham':
             plt.scatter(pit_lap_data['lap'], pit_lap_data['time_seconds'], color='green', s=100, zorder=5, edgecolors='white')
-        for i in range(len(pit_lap_data)):
+            text_label = f"H PIT ({pit_stop})"  
+        for j in range(len(pit_lap_data)):
+            y_offset = 3 if driver == 'ver' and i == 0 else 0  
             text = plt.text(
-                pit_lap_data.iloc[i]['lap'], 
-                pit_lap_data.iloc[i]['time_seconds'], 
-                'PIT', 
+                pit_lap_data.iloc[j]['lap'], 
+                pit_lap_data.iloc[j]['time_seconds'] + y_offset,  
+                text_label, 
                 fontsize=12, 
                 fontweight='bold', 
                 color='black', 

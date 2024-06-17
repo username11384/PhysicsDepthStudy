@@ -11,8 +11,8 @@ def time_to_seconds(lap_time):
 lap_data['time_seconds'] = lap_data['time'].apply(time_to_seconds)
 lap_data['lap'] = lap_data['lap'].astype(int)
 tire_compounds = {
-    'ver': [(1, 13, 'soft'), (13, 36, 'hard'), (36, 53, 'hard'), (53, 57, 'soft')],
-    'ham': [(1, 14, 'medium'), (14, 57, 'hard')]
+    'ver': [(1, 13, 'soft'), (13, 36, 'hard'), (36, 53, 'hardnew'), (53, 58, 'softnew')],
+    'ham': [(1, 14, 'medium'), (14, 58, 'hard')]
 }
 def assign_compound(driver, lap):
     if driver == 'ver':

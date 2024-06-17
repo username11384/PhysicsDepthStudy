@@ -12,7 +12,7 @@ def time_to_seconds(lap_time):
 lap_data['time_seconds'] = lap_data['time'].apply(time_to_seconds)
 lap_data['lap'] = lap_data['lap'].astype(int)
 tire_compounds = {
-    'ver': [(1, 13, 'soft'), (13, 36, 'hard'), (36, 53, 'hard'), (53, 58, 'newsoft')],
+    'ver': [(1, 13, 'soft'), (13, 36, 'hard'), (36, 53, 'newhard'), (53, 58, 'newsoft')],
     'ham': [(1, 14, 'medium'), (14, 58, 'hard')]
 }
 pit_stops = {
@@ -31,7 +31,7 @@ def assign_compound(driver, lap):
     return None
 lap_data['compound'] = lap_data.apply(lambda row: assign_compound(row['driver'], row['lap']), axis=1)
 plt.figure(figsize=(12, 6))
-compound_colors_ver = {'soft': 'red', 'medium': 'yellow', 'hard': 'black', 'newsoft': 'purple'}
+compound_colors_ver = {'soft': 'red', 'newhard': 'brown', 'hard': 'black', 'newsoft': 'purple'}
 compound_colors_ham = {'soft': 'blue', 'medium': 'green', 'hard': 'orange'}
 for driver in lap_data['driver'].unique():
     driver_data = lap_data[lap_data['driver'] == driver]
